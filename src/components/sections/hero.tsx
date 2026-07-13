@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, type MouseEvent } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Download, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,9 +8,21 @@ import { GithubIcon } from "@/components/icons";
 import { profile } from "@/lib/data";
 
 export function Hero() {
+  const glowRef = useRef<HTMLDivElement>(null);
+  const [glowVisible, setGlowVisible] = useState(false);
+
+  function handleMouseMove(e: MouseEvent<HTMLElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    glowRef.current?.style.setProperty("--glow-x", `${e.clientX - rect.left}px`);
+    glowRef.current?.style.setProperty("--glow-y", `${e.clientY - rect.top}px`);
+  }
+
   return (
     <section
       id="top"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setGlowVisible(true)}
+      onMouseLeave={() => setGlowVisible(false)}
       className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden px-6 text-center"
     >
       <div
@@ -18,6 +31,16 @@ export function Hero() {
         style={{
           background:
             "radial-gradient(60% 50% at 50% 0%, var(--accent-brand-soft), transparent 70%)",
+        }}
+      />
+      <div
+        ref={glowRef}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 transition-opacity duration-300"
+        style={{
+          opacity: glowVisible ? 1 : 0,
+          background:
+            "radial-gradient(500px circle at var(--glow-x, 50%) var(--glow-y, 50%), var(--accent-brand-soft), transparent 70%)",
         }}
       />
 

@@ -1,5 +1,6 @@
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { Hero } from "@/components/sections/hero";
 import { About } from "@/components/sections/about";
 import { Experience } from "@/components/sections/experience";
@@ -13,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
+      <ScrollProgress />
       <SiteNav />
       <main className="flex-1">
         <Hero />

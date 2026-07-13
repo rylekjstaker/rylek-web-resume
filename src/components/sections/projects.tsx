@@ -1,9 +1,14 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { FadeIn } from "@/components/fade-in";
 import { GithubIcon } from "@/components/icons";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { TiltCard } from "@/components/tilt-card";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { fadeInUp, staggerContainer } from "@/lib/motion";
 import { profile, projects } from "@/lib/data";
 
 export function Projects() {
@@ -11,10 +16,24 @@ export function Projects() {
     <section id="projects" className="mx-auto max-w-3xl px-6 py-24">
       <SectionHeading eyebrow="Projects" title="Things I've built" />
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        {projects.map((project, i) => (
-          <FadeIn key={project.title} delay={i * 0.08}>
-            <a href={project.github} target="_blank" rel="noreferrer" className="group block h-full">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={staggerContainer(0.1)}
+        className="grid gap-5 sm:grid-cols-2"
+      >
+        {projects.map((project) => (
+          <motion.a
+            key={project.title}
+            variants={fadeInUp}
+            transition={{ duration: 0.5 }}
+            href={project.github}
+            target="_blank"
+            rel="noreferrer"
+            className="group block h-full [perspective:800px]"
+          >
+            <TiltCard className="h-full">
               <Card className="h-full transition-colors group-hover:border-accent-brand/50">
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between text-base">
@@ -35,10 +54,10 @@ export function Projects() {
                   </div>
                 </CardContent>
               </Card>
-            </a>
-          </FadeIn>
+            </TiltCard>
+          </motion.a>
         ))}
-      </div>
+      </motion.div>
 
       <FadeIn delay={0.2} className="mt-8 text-center">
         <a
