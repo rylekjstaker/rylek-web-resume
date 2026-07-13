@@ -1,4 +1,4 @@
-// Shared Framer Motion variants — reuse these instead of inlining new animation
+// Shared Framer Motion variants. Reuse these instead of inlining new animation
 // objects in components, so animation timing/easing stays consistent site-wide.
 import type { Variants } from "framer-motion";
 
