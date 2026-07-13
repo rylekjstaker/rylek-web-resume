@@ -102,7 +102,7 @@ export const projects: Project[] = [
     description:
       "A Next.js, Tailwind CSS, and shadcn/ui resume and portfolio site, deployed on Vercel.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    github: "https://github.com/rylekjstaker/RylekWebResume",
+    github: "https://github.com/rylekjstaker/rylek-web-resume",
   },
 ];
 
