@@ -15,7 +15,8 @@ export function Contact() {
           Let&apos;s work together
         </h2>
         <p className="mx-auto mt-4 max-w-md text-muted-foreground">
-          Open to internships, entry-level roles, and interesting projects.
+          Open to part-time internships and entry-level roles in AI automation,
+          business systems, and software development.
           The fastest way to reach me is email.
         </p>
 

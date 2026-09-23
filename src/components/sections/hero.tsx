@@ -115,8 +115,8 @@ export function Hero() {
       </motion.div>
 
       <motion.a
-        href="#about"
-        aria-label="Scroll to about section"
+        href="#projects"
+        aria-label="Scroll to projects"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}

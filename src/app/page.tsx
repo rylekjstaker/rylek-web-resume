@@ -18,15 +18,15 @@ export default function Home() {
       <SiteNav />
       <main className="flex-1">
         <Hero />
-        <About />
+        <Projects />
         <Separator className="mx-auto max-w-3xl" />
         <Experience />
         <Separator className="mx-auto max-w-3xl" />
-        <Leadership />
-        <Separator className="mx-auto max-w-3xl" />
         <Skills />
         <Separator className="mx-auto max-w-3xl" />
-        <Projects />
+        <About />
+        <Separator className="mx-auto max-w-3xl" />
+        <Leadership />
         <Separator className="mx-auto max-w-3xl" />
         <Education />
         <Separator className="mx-auto max-w-3xl" />
