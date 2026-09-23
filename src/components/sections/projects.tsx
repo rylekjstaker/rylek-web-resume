@@ -28,10 +28,10 @@ export function Projects() {
             key={project.title}
             variants={fadeInUp}
             transition={{ duration: 0.5 }}
-            href={project.github}
+            href={project.url}
             target="_blank"
             rel="noreferrer"
-            className="group block h-full [perspective:800px]"
+            className="group block h-full rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-brand [perspective:800px]"
           >
             <TiltCard className="h-full">
               <Card className="h-full transition-colors group-hover:border-accent-brand/50">
@@ -45,6 +45,9 @@ export function Projects() {
                   <p className="mb-4 text-sm text-muted-foreground">
                     {project.description}
                   </p>
+                  <p className="mb-4 text-sm text-muted-foreground">
+                    {project.detail}
+                  </p>
                   <div className="flex flex-wrap gap-1.5">
                     {project.tags.map((tag) => (
                       <Badge key={tag} variant="outline" className="text-xs">
@@ -52,6 +55,7 @@ export function Projects() {
                       </Badge>
                     ))}
                   </div>
+                  <p className="mt-5 text-sm font-medium text-accent-brand">{project.linkLabel} <span aria-hidden="true">↗</span></p>
                 </CardContent>
               </Card>
             </TiltCard>

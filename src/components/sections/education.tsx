@@ -1,12 +1,12 @@
 import { FadeIn } from "@/components/fade-in";
 import { SectionHeading } from "@/components/sections/section-heading";
 import { Card, CardContent } from "@/components/ui/card";
-import { education } from "@/lib/data";
+import { certifications, education } from "@/lib/data";
 
 export function Education() {
   return (
     <section id="education" className="mx-auto max-w-3xl px-6 py-24">
-      <SectionHeading eyebrow="Education" title="Where I studied" />
+      <SectionHeading eyebrow="Education" title="What I'm studying" />
       <div className="space-y-4">
         {education.map((item, i) => (
           <FadeIn key={item.school} delay={i * 0.08}>
@@ -23,6 +23,12 @@ export function Education() {
           </FadeIn>
         ))}
       </div>
+      <FadeIn className="mt-8">
+        <h3 className="mb-3 text-lg font-semibold">Certifications</h3>
+        <ul className="space-y-2 text-sm text-muted-foreground">
+          {certifications.map((certification) => <li key={certification}>{certification}</li>)}
+        </ul>
+      </FadeIn>
     </section>
   );
 }
