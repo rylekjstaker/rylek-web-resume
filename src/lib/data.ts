@@ -37,7 +37,7 @@ export const experience: ExperienceItem[] = [
       "Co-founded an AI automation and custom software venture for small businesses with my brother.",
       "Helped scope, build, and deploy a scheduling platform for a mobile anesthesia practice, with role-based access and AI-assisted scheduling for owner review.",
       "Built a scheduled TypeScript workflow that researches businesses, checks for duplicate leads, and creates ClickUp tasks with draft outreach for human review.",
-      "Prototype workflows with the Claude API, MCP integrations, and locally hosted models through Ollama.",
+      "Prototype workflows with the Claude API and MCP integrations.",
     ],
   },
   {
@@ -103,7 +103,7 @@ export const certifications = [
 ];
 
 export const skills: SkillGroup[] = [
-  { category: "AI & automation", skills: ["Claude API", "MCP", "Trigger.dev", "Make.com", "Ollama", "Workflow Design"] },
+  { category: "AI & automation", skills: ["Claude API", "MCP", "Trigger.dev", "Make.com", "Workflow Design"] },
   { category: "Software & data", skills: ["TypeScript", "Next.js", "Python", "SQL", "PostgreSQL", "Prisma", "Git/GitHub"] },
   { category: "Business systems", skills: ["Excel & VBA", "Tableau", "Dentrix", "ClickUp API", "Accounts Receivable", "Insurance Billing"] },
   { category: "Languages", skills: ["English (Native)", "Spanish (Advanced Professional)"] },
