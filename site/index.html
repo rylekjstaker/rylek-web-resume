@@ -12,7 +12,7 @@
 <link rel="icon" href="assets/amanecer-mark.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/hero-far.webp" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/hero-far-p.webp" media="(max-width: 860px)">
 <link rel="stylesheet" href="scrollcraft.css">
@@ -24,9 +24,9 @@
     --sc-ink-soft:   #4A5467;
     --sc-accent:     #8E5122;
     --sc-accent-ink: #FBF8F2;
-    --sc-font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-    --sc-font-text:    "Geist", system-ui, sans-serif;
-    --sc-font-mono:    "Geist Mono", ui-monospace, monospace;
+    --sc-font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --sc-font-text:    "Hanken Grotesk", system-ui, sans-serif;
+    --sc-font-mono:    "IBM Plex Mono", ui-monospace, monospace;
     --copper: #B87333;
     --navy:   #0A1930;
     --paper:  #F3F0EA;
@@ -34,7 +34,10 @@
   }
   html { background: var(--paper); }
   body { background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); }
-  .sc-display { font-weight: 400; letter-spacing: -0.012em; }
+  .sc-display { font-weight: 400; letter-spacing: -0.02em; }
+  :is(.sc-display, .cover__mast, .short__lede, .triage__title, .triage__step h3, .proj h3, .stop__when, .stop__you, .close__line, .ledger__fig, .folio__name) {
+    font-variation-settings: "opsz" 72; font-optical-sizing: auto;
+  }
   .sc-display em { font-style: italic; }
 
   /* ---- dark chapter ground: restate color with the tokens ---- */
@@ -107,7 +110,7 @@
   .cover__mast {
     position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); top: 21vh; margin: 0;
     font-family: var(--sc-font-display); font-weight: 400; color: var(--navy);
-    font-size: clamp(4.4rem, 15.5vw, 17rem); line-height: .9; letter-spacing: -.035em;
+    font-size: clamp(4.4rem, 15vw, 16.5rem); line-height: .92; letter-spacing: -.03em;
     transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--sc-p, 0) * -7vh), 0);
   }
   .cover__mast span { display: block; }
@@ -154,12 +157,14 @@
 
   /* ===================================================== 3 · TRIAGE == */
   .triage .sc-stage { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; padding: 0 var(--sc-gutter) 0 calc(var(--sc-gutter) + var(--folio-w)); }
-  .triage__copy { position: relative; min-height: 31rem; }
+  .triage__copy { position: relative; min-height: 30rem; }
   .triage__byline { position: absolute; left: 0; bottom: 0; margin: 0; display: grid; gap: .3rem; padding-top: var(--sc-4); border-top: 1px solid rgba(217,154,98,.45); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); max-width: 36ch; }
   .triage__byline span { font-family: var(--sc-font-mono); letter-spacing: .1em; text-transform: uppercase; color: #F0C49B; }
   .triage__kicker { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--sc-accent); margin: 0 0 var(--sc-5); }
-  .triage__step { position: absolute; left: 0; right: 0; top: 2.4rem; }
-  .triage__step h2 { font-family: var(--sc-font-display); font-weight: 400; font-size: var(--sc-t-3xl); line-height: .98; letter-spacing: -.02em; margin: 0 0 var(--sc-4); text-wrap: balance; }
+  .triage__title { font-family: var(--sc-font-display); font-weight: 400; font-size: clamp(2.4rem, 3.5vw, 3.6rem); white-space: nowrap; line-height: .95; letter-spacing: -.025em; margin: 0; color: #F7F2EA; }
+  .triage__title span { display: block; margin-top: .7rem; font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .12em; text-transform: uppercase; color: #F0C49B; }
+  .triage__step { position: absolute; left: 0; right: 0; top: 9.2rem; }
+  .triage__step h3 { font-family: var(--sc-font-display); font-weight: 400; font-size: var(--sc-t-xl); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 var(--sc-3); text-wrap: balance; color: var(--sc-ink); }
   .triage__step p { color: var(--sc-ink-soft); margin: 0; max-width: 40ch; line-height: 1.6; }
   .surface {
     position: relative; background: #0F213D; border: 1px solid rgba(241,236,227,.1); border-radius: 14px;
@@ -293,11 +298,13 @@
     .proj--offset { margin-top: 0; }
     .ledger li { grid-template-columns: 5.6rem 1fr; }
     .triage .sc-stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-items: start; padding: 4.5rem var(--sc-gutter) 3rem; gap: 1.25rem; }
-    .triage__copy { min-height: 10.5rem; }
+    .triage__copy { min-height: 12.8rem; }
     .triage__byline { display: none; }
+    .triage__title { font-size: var(--sc-t-2xl); }
+    .triage__title span { margin-top: .4rem; }
     .surface__bar span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
-    .triage__step { top: 1.7rem; }
-    .triage__step h2 { font-size: var(--sc-t-xl); margin-bottom: .4rem; }
+    .triage__step { top: 6.4rem; }
+    .triage__step h3 { font-size: var(--sc-t-lg); margin-bottom: .3rem; }
     .triage__step p { font-size: var(--sc-t-sm); line-height: 1.5; }
     .triage__kicker { margin-bottom: .6rem; }
     .surface { font-size: .72rem; }
@@ -326,7 +333,7 @@
   }
   @media (max-width: 860px) and (max-height: 740px) {
     .triage .sc-stage { padding-top: 4.2rem; gap: .75rem; }
-    .triage__copy { min-height: 4.6rem; }
+    .triage__copy { min-height: 8.6rem; }
     .triage__step p { display: none; }
     .rows { --rh: 1.8rem; }
     .surface__bar { padding: .55rem .75rem; }
@@ -410,20 +417,21 @@
   <section id="work" class="triage ground-navy" data-sc-act="pin" data-sc-span="3.6" data-chrome="light" data-ch-section="work" aria-label="Selected work: claims triage">
     <div data-sc-stage>
       <div class="triage__copy">
-        <p class="triage__kicker">Selected work · My project</p>
+        <p class="triage__kicker">Selected work · A project I’m proud of</p>
+        <h2 class="triage__title">Claims Triage<span>Designed and built by me</span></h2>
         <div class="triage__step" data-sc-cue="0 0.34 0">
-          <h2>A report nobody wants to read.</h2>
+          <h3>A report nobody wants to read.</h3>
           <p>Dental offices export an insurance aging report: every open claim, in whatever order the software felt like. Someone has to decide what to chase first.</p>
         </div>
         <div class="triage__step" data-sc-cue="0.30 0.66">
-          <h2>So I built a tool that reads it.</h2>
+          <h3>So I built a tool that reads it.</h3>
           <p>It parses the export, then scores each claim on age, balance, and status, and says why in plain language.</p>
         </div>
         <div class="triage__step" data-sc-cue="0.62 1 0.12 0.05">
-          <h2>What is left is a worklist.</h2>
+          <h3>What is left is a worklist.</h3>
           <p>The claims worth a call today rise to the top, with a draft follow-up letter ready for a person to review and send.</p>
         </div>
-        <p class="triage__byline"><span>Designed and built by me</span>Claims triage · Next.js, Claude API, CSV and PDF parsing</p>
+        <p class="triage__byline"><span>My stack</span>Next.js, Claude API, CSV and PDF parsing</p>
       </div>
 
       <div class="surface" id="triage-surface" aria-label="Sample claims worklist">
