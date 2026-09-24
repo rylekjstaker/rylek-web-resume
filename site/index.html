@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rylek Staker · AI automation and practical business software</title>
+<meta name="description" content="Rylek Staker co-founded Amanecer AI and builds AI automation and business software for small teams. BYU student in Draper, Utah. Open to internships and entry-level roles.">
+<meta property="og:title" content="Rylek Staker">
+<meta property="og:description" content="AI automation and practical business software. Co-founder, Amanecer AI.">
+<meta property="og:image" content="assets/hero-far.webp">
+<meta name="theme-color" content="#F3F0EA">
+<link rel="icon" href="assets/amanecer-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/hero-far.webp" media="(min-width: 861px)">
+<link rel="preload" as="image" href="assets/hero-far-p.webp" media="(max-width: 860px)">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  :root {
+    --sc-canvas:     #F3F0EA;
+    --sc-surface:    #E8E3D9;
+    --sc-ink:        #0E1B2E;
+    --sc-ink-soft:   #4A5467;
+    --sc-accent:     #8E5122;
+    --sc-accent-ink: #FBF8F2;
+    --sc-font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --sc-font-text:    "Geist", system-ui, sans-serif;
+    --sc-font-mono:    "Geist Mono", ui-monospace, monospace;
+    --copper: #B87333;
+    --navy:   #0A1930;
+    --paper:  #F3F0EA;
+    --folio-w: 12.5rem;
+  }
+  html { background: var(--paper); }
+  body { background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); }
+  .sc-display { font-weight: 400; letter-spacing: -0.012em; }
+  .sc-display em { font-style: italic; }
+
+  /* ---- dark chapter ground: restate color with the tokens ---- */
+  .ground-navy {
+    --sc-canvas: #0A1930; --sc-surface: #12233F;
+    --sc-ink: #F1ECE3; --sc-ink-soft: #AEB8C9;
+    --sc-accent: #D99A62; --sc-accent-ink: #0A1930;
+    --sc-hairline: rgba(241,236,227,.14);
+    background: var(--sc-canvas); color: var(--sc-ink);
+  }
+
+  /* ---- folio: margin index, the page's only chrome ---- */
+  .folio {
+    position: fixed; z-index: 40; top: 0; left: 0;
+    padding: clamp(1rem, 2.2vw, 1.75rem) var(--sc-gutter);
+    display: flex; flex-direction: column; gap: var(--sc-5);
+    color: var(--folio-ink, var(--sc-ink));
+    transition: color 200ms var(--sc-ease-out);
+    pointer-events: none;
+  }
+  .folio > * { pointer-events: auto; }
+  .folio__name { font-family: var(--sc-font-display); font-size: 1.35rem; line-height: 1; color: inherit; text-decoration: none; }
+  .folio__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; transition: opacity 240ms var(--sc-ease-out), transform 240ms var(--sc-ease-out); }
+  body[data-on-cover="true"] .folio__list { opacity: 0; transform: translate3d(0, -6px, 0); pointer-events: none; }
+  .folio__list a {
+    font-size: var(--sc-t-xs); letter-spacing: .02em; color: inherit; opacity: .55;
+    text-decoration: none; display: inline-flex; gap: .55rem; align-items: baseline;
+    transition: opacity 160ms var(--sc-ease-out);
+  }
+  .folio__list a::before { content: ""; width: .9rem; height: 1px; background: currentColor; translate: 0 -.3em; transition: width 200ms var(--sc-ease-out); }
+  .folio__list a[aria-current="true"] { opacity: 1; }
+  .folio__list a[aria-current="true"]::before { width: 1.8rem; }
+  @media (hover: hover) and (pointer: fine) { .folio__list a:hover { opacity: 1; } }
+  .topcta {
+    position: fixed; z-index: 40; top: clamp(1rem, 2.2vw, 1.75rem); right: var(--sc-gutter);
+    display: flex; gap: var(--sc-5); align-items: center; color: var(--folio-ink, var(--sc-ink));
+    transition: color 200ms var(--sc-ease-out);
+  }
+  .topcta a:not(.btn) { color: inherit; font-size: var(--sc-t-sm); text-underline-offset: .25em; }
+  body[data-chrome="light"] { --folio-ink: #F1ECE3; }
+  body[data-chrome="light"] .topcta .btn { background: #F1ECE3; color: var(--navy); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .6rem; white-space: nowrap;
+    background: var(--navy); color: #F7F3EC; text-decoration: none;
+    font-size: var(--sc-t-sm); font-weight: 500; letter-spacing: .01em;
+    padding: .78rem 1.25rem; border-radius: 999px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.12) inset, 0 8px 22px -12px rgba(10,25,48,.55);
+    transition: transform 140ms var(--sc-ease-out), background-color 160ms var(--sc-ease-out);
+  }
+  .btn:active { transform: scale(.97); }
+  @media (hover: hover) and (pointer: fine) { .btn:hover { background: #16294A; } }
+  .btn svg { width: 1rem; height: 1rem; }
+  .textlink { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .28em; }
+  @media (hover: hover) and (pointer: fine) { .textlink:hover { text-decoration-color: var(--sc-accent); } }
+
+  /* =================================================== 1 · COVER == */
+  .cover .sc-stage { background: #C9CDD2; }
+  .cover__plane { position: absolute; left: 0; width: 100%; max-width: none; pointer-events: none; }
+  .cover__far {
+    inset: -6% 0 auto 0; height: 112%; object-fit: cover; object-position: 50% 70%;
+    transform: translate3d(calc(var(--mx, 0) * -6px), calc(var(--sc-p, 0) * -3vh), 0) scale(calc(1.06 - var(--sc-p, 0) * .03));
+  }
+  .cover__sun {
+    left: 58%; top: 70%; width: 70vmax; height: 70vmax; margin: -35vmax 0 0 -35vmax;
+    background: radial-gradient(circle, rgba(255,214,170,.85) 0%, rgba(255,190,140,.38) 22%, rgba(255,170,120,0) 56%);
+    mix-blend-mode: soft-light; opacity: calc(.45 + var(--sc-p, 0) * .55);
+    transform: translate3d(0, calc(var(--sc-p, 0) * -22vh), 0);
+  }
+  .cover__mast {
+    position: absolute; left: var(--sc-gutter); right: var(--sc-gutter); top: 21vh; margin: 0;
+    font-family: var(--sc-font-display); font-weight: 400; color: var(--navy);
+    font-size: clamp(4.4rem, 15.5vw, 17rem); line-height: .9; letter-spacing: -.035em;
+    transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--sc-p, 0) * -7vh), 0);
+  }
+  .cover__mast span { display: block; }
+  .cover__mast span + span { padding-left: 1.02em; }
+  .cover__ridge {
+    bottom: -21vh; height: auto; opacity: 1;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 30%, #000 58%);
+            mask-image: linear-gradient(to right, transparent 0%, transparent 30%, #000 58%);
+    transform: translate3d(calc(var(--mx, 0) * -16px), calc(var(--sc-p, 0) * -10vh), 0);
+  }
+  .cover__mist {
+    bottom: -14vh; height: auto; opacity: calc(.55 + var(--sc-p, 0) * .35);
+    transform: translate3d(calc(var(--mx, 0) * -30px), calc(var(--sc-p, 0) * -19vh), 0);
+  }
+  .cover__floor { position: absolute; inset: auto 0 0 0; height: 24vh; background: linear-gradient(to bottom, rgba(243,240,234,0), rgba(243,240,234,.94) 72%, var(--paper)); }
+  .cover__copy {
+    position: absolute; z-index: 5; left: var(--sc-gutter); bottom: clamp(2.25rem, 7vh, 4.5rem);
+    max-width: 34rem; display: grid; gap: var(--sc-4);
+  }
+  .cover__kicker { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--sc-ink-soft); margin: 0; }
+  .cover__lede { font-size: var(--sc-t-lg); line-height: 1.42; margin: 0; max-width: 30ch; text-wrap: pretty; }
+  .cover__actions { display: flex; gap: var(--sc-5); align-items: center; flex-wrap: wrap; }
+
+  .cover__frame {
+    position: absolute; z-index: 4; right: calc(var(--sc-gutter) + 4vw); bottom: 11vh; margin: 0;
+    width: clamp(15rem, 25vw, 23rem);
+    transform: translate3d(calc(var(--mx, 0) * -12px), calc(var(--sc-p, 0) * -9vh), 0);
+  }
+  .cover__frame img {
+    display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 2px 4px rgba(10,25,48,.12), 0 44px 80px -36px rgba(10,25,48,.6);
+  }
+
+  /* ================================================ 2 · SHORT VERSION == */
+  .short { padding-block: clamp(3rem, 6vw, 6rem) var(--sc-section); }
+  .short__body { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(2.5rem, 7vw, 8rem); align-items: start; }
+  .short__lede { font-family: var(--sc-font-display); font-size: var(--sc-t-2xl); line-height: 1.08; letter-spacing: -.012em; margin: 0; text-wrap: balance; }
+  .short__lede em { color: var(--sc-accent); }
+  .ledger { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sc-hairline-strong); }
+  .ledger li { display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--sc-5); padding: var(--sc-5) 0; border-bottom: 1px solid var(--sc-hairline); align-items: baseline; }
+  .ledger__fig { font-family: var(--sc-font-display); font-size: clamp(2.3rem, 3.4vw, 3.2rem); line-height: .95; letter-spacing: -.02em; white-space: nowrap; }
+  .ledger__what { font-weight: 500; margin: 0; }
+  .ledger__why { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); margin: .3rem 0 0; max-width: 40ch; }
+
+  /* ===================================================== 3 · TRIAGE == */
+  .triage .sc-stage { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; padding: 0 var(--sc-gutter) 0 calc(var(--sc-gutter) + var(--folio-w)); }
+  .triage__copy { position: relative; min-height: 22rem; }
+  .triage__kicker { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .12em; text-transform: uppercase; color: var(--sc-accent); margin: 0 0 var(--sc-5); }
+  .triage__step { position: absolute; left: 0; right: 0; top: 2.4rem; }
+  .triage__step h2 { font-family: var(--sc-font-display); font-weight: 400; font-size: var(--sc-t-3xl); line-height: .98; letter-spacing: -.02em; margin: 0 0 var(--sc-4); text-wrap: balance; }
+  .triage__step p { color: var(--sc-ink-soft); margin: 0; max-width: 40ch; line-height: 1.6; }
+  .surface {
+    position: relative; background: #0F213D; border: 1px solid rgba(241,236,227,.1); border-radius: 14px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 40px 80px -40px rgba(0,0,0,.6);
+    font-size: .8rem; overflow: hidden;
+  }
+  .surface__bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .8rem 1.1rem; border-bottom: 1px solid rgba(241,236,227,.1); font-family: var(--sc-font-mono); font-size: .72rem; color: #AEB8C9; }
+  .surface__status { color: #D99A62; }
+  .surface__head, .row { display: grid; grid-template-columns: 5.6rem 1fr 3.4rem 4.6rem 5.2rem 6.2rem; gap: .75rem; align-items: center; padding: 0 1.1rem; }
+  .surface__head { height: 2.1rem; font-family: var(--sc-font-mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: #8894A8; border-bottom: 1px solid rgba(241,236,227,.08); }
+  .rows { position: relative; height: calc(var(--rh) * 9); --rh: 2.55rem; }
+  .row {
+    position: absolute; left: 0; right: 0; top: 0; height: var(--rh);
+    border-bottom: 1px solid rgba(241,236,227,.06); color: #D6DBE4;
+    font-variant-numeric: tabular-nums; will-change: transform;
+  }
+  .row__id { font-family: var(--sc-font-mono); font-size: .74rem; color: #AEB8C9; }
+  .row__payer, .row__reason { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row__num { text-align: right; }
+  .row__score { position: relative; height: .42rem; background: rgba(241,236,227,.08); border-radius: 99px; overflow: hidden; }
+  .row__score i { position: absolute; inset: 0 auto 0 0; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--s, 0)); background: #6F7C92; border-radius: inherit; }
+  .row__tag { font-family: var(--sc-font-mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; justify-self: start; padding: .22rem .5rem; border-radius: 99px; opacity: 0; transition: opacity 200ms var(--sc-ease-out); }
+  .row.is-hot .row__score i { background: #D99A62; }
+  .row.is-hot .row__tag { opacity: 1; background: rgba(217,154,98,.16); color: #F0C49B; }
+  .row.is-cold { color: #7D889C; }
+  .row.is-cold .row__tag { opacity: 1; color: #7D889C; }
+  .row.is-scanning { background: rgba(217,154,98,.07); }
+  .letter {
+    border-top: 1px solid rgba(241,236,227,.1); padding: .9rem 1.1rem 1rem; display: grid; gap: .35rem;
+    opacity: 0; transform: translate3d(0, 10px, 0);
+  }
+  .letter__label { font-family: var(--sc-font-mono); font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: #D99A62; }
+  .letter p { margin: 0; color: #D6DBE4; line-height: 1.5; max-width: 62ch; }
+  .triage__note { position: absolute; left: calc(var(--sc-gutter) + var(--folio-w)); bottom: clamp(1.25rem, 4vh, 2.5rem); margin: 0; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+  .triage__note a { color: var(--sc-ink); }
+
+  /* ====================================================== 4 · WORK == */
+  .work { padding-block: var(--sc-section); }
+  .work__head { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: var(--sc-8); }
+  .work__head h2 { font-size: var(--sc-t-3xl); }
+  .work__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 7rem); }
+  .proj { border-top: 1px solid var(--sc-hairline-strong); padding-top: var(--sc-5); display: grid; gap: var(--sc-4); align-content: start; }
+  .proj--offset { margin-top: clamp(0rem, 9vw, 8rem); }
+  .proj__meta { display: flex; align-items: center; gap: .75rem; font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--sc-ink-soft); margin: 0; }
+  .proj__meta img { height: 1.05rem; width: auto; }
+  .proj h3 { font-family: var(--sc-font-display); font-weight: 400; font-size: var(--sc-t-2xl); line-height: 1; letter-spacing: -.015em; margin: 0; }
+  .proj p { margin: 0; color: var(--sc-ink-soft); line-height: 1.6; max-width: 52ch; }
+  .proj p strong { color: var(--sc-ink); font-weight: 500; }
+  .stack { margin: 0; font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); letter-spacing: .02em; }
+
+  /* ====================================================== 5 · PATH == */
+  .path .sc-stage { display: flex; align-items: center; }
+  .rail { display: flex; gap: 0; padding-left: calc(var(--sc-gutter) + var(--folio-w)); padding-right: 12vw; align-items: stretch; }
+  .rail__lead { flex: 0 0 min(30rem, 78vw); padding-right: clamp(2rem, 5vw, 5rem); display: grid; align-content: center; gap: var(--sc-4); }
+  .rail__lead h2 { font-size: var(--sc-t-3xl); }
+  .stop { flex: 0 0 clamp(17rem, 27vw, 24rem); padding: var(--sc-6) clamp(1.5rem, 2.5vw, 2.5rem); border-left: 1px solid var(--sc-hairline-strong); display: grid; align-content: start; gap: var(--sc-3); }
+  .stop__when { font-family: var(--sc-font-display); font-size: clamp(2.2rem, 3.4vw, 3.1rem); line-height: 1; letter-spacing: -.02em; margin: 0 0 var(--sc-3); }
+  .stop__role { font-weight: 500; margin: 0; }
+  .stop__org { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); margin: 0; display: flex; align-items: center; gap: .5rem; }
+  .stop__org img { width: 1.25rem; height: 1.25rem; }
+  .stop ul { margin: var(--sc-3) 0 0; padding: 0; list-style: none; display: grid; gap: .55rem; }
+  .stop li { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.55; padding-left: 1rem; position: relative; }
+  .stop li::before { content: ""; position: absolute; left: 0; top: .72em; width: .45rem; height: 1px; background: var(--sc-accent); }
+  .stop--next { background: var(--navy); color: #F1ECE3; border-left: 0; border-radius: 4px; }
+  .stop--next .stop__when { color: #D99A62; }
+  .stop--next p { color: #C9D0DB; margin: 0; line-height: 1.55; }
+  .stop--next .stop__you { font-family: var(--sc-font-display); font-size: var(--sc-t-2xl); line-height: 1.02; color: #F1ECE3; margin: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .rail > .stop { opacity: clamp(.55, calc((var(--sc-p, 0) * 6) - var(--i, 0) + 1.4), 1); }
+  }
+
+  /* ================================================ 6 · COCHABAMBA == */
+  .bolivia { position: relative; min-height: 100svh; display: grid; align-items: end; overflow: clip; }
+  .bolivia figure { position: absolute; inset: 0; margin: 0; }
+  .bolivia figure img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .bolivia__shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,25,48,.78) 0%, rgba(10,25,48,.5) 34%, rgba(10,25,48,0) 62%); }
+  .bolivia__copy { position: relative; z-index: 2; color: #F4EFE7; padding: 0 var(--sc-gutter) clamp(3rem, 12vh, 8rem) calc(var(--sc-gutter) + var(--folio-w)); max-width: calc(40rem + var(--folio-w)); display: grid; gap: var(--sc-4); }
+  .bolivia__copy h2 { font-size: var(--sc-t-3xl); color: #F7F2EA; }
+  .bolivia__copy p { margin: 0; color: #E4DED4; line-height: 1.62; max-width: 46ch; }
+  .bolivia__copy .caption { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .08em; color: #C7CFDB; }
+
+  /* =================================================== 7 · TOOLKIT == */
+  .kit { padding-block: var(--sc-section); }
+  .kit__grid { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: clamp(2rem, 6vw, 7rem); }
+  .kit h2 { font-size: var(--sc-t-3xl); }
+  .kit dl { margin: 0; display: grid; }
+  .kit dl > div { display: grid; grid-template-columns: 11rem 1fr; gap: var(--sc-5); padding: var(--sc-5) 0; border-top: 1px solid var(--sc-hairline); }
+  .kit dl > div:last-child { border-bottom: 1px solid var(--sc-hairline); }
+  .kit dt { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: .1em; text-transform: uppercase; color: var(--sc-ink-soft); padding-top: .2rem; }
+  .kit dd { margin: 0; line-height: 1.6; }
+  .kit dd small { display: block; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); margin-top: .25rem; }
+
+  /* ===================================================== 8 · CLOSE == */
+  .close .sc-stage { display: grid; grid-template-rows: 1fr auto; }
+  .close__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .close__wash { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(243,240,234,.2) 0%, rgba(243,240,234,.55) 45%, rgba(243,240,234,.96) 100%); }
+  .close__inner { position: relative; z-index: 2; align-self: center; padding: 0 var(--sc-gutter) 0 calc(var(--sc-gutter) + var(--folio-w)); display: grid; gap: var(--sc-6); }
+  .close__line { font-family: var(--sc-font-display); font-size: clamp(3.2rem, 8.4vw, 8rem); line-height: .92; letter-spacing: -.03em; margin: 0; color: var(--navy); max-width: 12ch; }
+  .close__line em { color: #8E5122; }
+  .close__mail { font-size: var(--sc-t-xl); margin: 0; color: var(--navy); }
+  .close__mail a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+  .close__links { display: flex; gap: var(--sc-6); flex-wrap: wrap; margin: 0; padding: 0; list-style: none; font-size: var(--sc-t-sm); }
+  .close__links a { color: var(--navy); }
+  .foot { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: var(--sc-5) var(--sc-gutter) var(--sc-5) calc(var(--sc-gutter) + var(--folio-w)); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); border-top: 1px solid var(--sc-hairline); }
+  .foot span { display: inline-flex; align-items: center; gap: .5rem; }
+  .foot img { width: 1rem; height: 1rem; }
+
+  /* chapters leave room for the folio on wide screens */
+  .has-folio { padding-left: calc(var(--sc-gutter) + var(--folio-w)); padding-right: var(--sc-gutter); max-width: calc(var(--sc-maxw) + var(--folio-w)); }
+
+  :focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; border-radius: 3px; }
+  .skip { position: absolute; left: -999px; top: .5rem; z-index: 99; background: var(--navy); color: #fff; padding: .5rem .8rem; }
+  .skip:focus { left: .5rem; }
+
+  /* ------------------------------------------------ medium widths -- */
+  @media (max-width: 1180px) {
+    :root { --folio-w: 0rem; }
+    .folio__list { display: none; }
+  }
+  /* --------------------------------------------------------- phone -- */
+  @media (max-width: 860px) {
+    .topcta a:not(.btn) { display: none; }
+    .cover__far { object-position: 50% 80%; }
+    .cover__mast { top: 15svh; font-size: clamp(3.6rem, 22vw, 7rem); }
+    .cover__mast span + span { padding-left: 1.02em; }
+    .cover__ridge { display: none; }
+    .cover__floor { height: 48svh; background: linear-gradient(to bottom, rgba(243,240,234,0) 0%, rgba(243,240,234,.86) 38%, rgba(243,240,234,.97) 60%, var(--paper)); }
+    .cover__mist { width: 260%; left: -80%; }
+    .cover__copy { right: var(--sc-gutter); bottom: 2rem; }
+    .cover__lede { font-size: var(--sc-t-base); }
+    .short__body, .work__grid, .kit__grid { grid-template-columns: 1fr; }
+    .cover__frame { width: 42vw; right: var(--sc-gutter); bottom: auto; top: 39svh; transform: translate3d(0, calc(var(--sc-p, 0) * -5svh), 0); }
+    @media (max-width: 1180px) {
+    body::before {
+      content: ""; position: fixed; z-index: 39; inset: 0 0 auto 0; height: 4.4rem;
+      background: var(--paper); border-bottom: 1px solid var(--sc-hairline);
+      opacity: 0; transition: opacity 200ms var(--sc-ease-out), background-color 200ms var(--sc-ease-out); pointer-events: none;
+    }
+    body[data-on-cover="false"]::before { opacity: 1; }
+    body[data-chrome="light"]::before { background: var(--navy); border-color: rgba(241,236,227,.12); }
+    .folio { padding-top: 1.15rem; }
+    .topcta { top: .7rem; }
+  }
+  @media (max-width: 860px) and (max-height: 740px) {
+    .triage .sc-stage { padding-top: 4.2rem; gap: .75rem; }
+    .triage__copy { min-height: 4.6rem; }
+    .triage__step p { display: none; }
+    .rows { --rh: 1.8rem; }
+    .surface__bar { padding: .55rem .75rem; }
+    .surface__head { height: 1.7rem; }
+    .letter { padding: .6rem .75rem .7rem; }
+    .triage__note { bottom: .5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover__plane, .cover__mast { transform: none !important; }
+    .cover__sun { opacity: .75; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#short">Skip to content</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<nav class="folio" aria-label="Chapters">
+  <a class="folio__name" href="#top">Rylek Staker</a>
+  <ol class="folio__list">
+    <li><a href="#short" data-ch="short">The short version</a></li>
+    <li><a href="#work" data-ch="work">Selected work</a></li>
+    <li><a href="#path" data-ch="path">The path</a></li>
+    <li><a href="#bolivia" data-ch="bolivia">Cochabamba</a></li>
+    <li><a href="#kit" data-ch="kit">Toolkit</a></li>
+    <li><a href="#contact" data-ch="contact">Contact</a></li>
+  </ol>
+</nav>
+<div class="topcta">
+  <a href="resume.pdf" download="Rylek-Staker-Resume.pdf">Résumé (PDF)</a>
+  <a class="btn" href="mailto:Rylek.JStaker@gmail.com">Email me</a>
+</div>
+
+<main id="top">
+
+  <!-- 1 · COVER: pinned, planes driven by --sc-p in CSS -->
+  <section class="cover" data-sc-act="pin" data-sc-span="1.7" data-chrome="dark" aria-label="Cover">
+    <div data-sc-stage>
+      <picture>
+        <source media="(max-width: 860px)" srcset="assets/hero-far-p.webp">
+        <img class="cover__plane cover__far" src="assets/hero-far.webp" width="2400" height="1358" alt="">
+      </picture>
+      <div class="cover__plane cover__sun" aria-hidden="true"></div>
+      <h1 class="cover__mast"><span>Rylek</span><span>Staker</span></h1>
+      <img class="cover__plane cover__ridge" src="assets/hero-ridge.webp" width="2400" height="679" alt="">
+      <img class="cover__plane cover__mist" src="assets/hero-mist.webp" width="2400" height="1002" alt="">
+      <div class="cover__floor" aria-hidden="true"></div>
+      <figure class="cover__frame">
+        <img src="assets/rylek-portrait.webp" width="1120" height="1400" alt="Rylek Staker in a grey suit, standing in a field below the Wasatch mountains">
+      </figure>
+      <div class="cover__copy">
+        <p class="cover__kicker">Draper, Utah · Co-founder, Amanecer AI</p>
+        <p class="cover__lede">I build AI automation and practical business software that takes manual work off small teams.</p>
+        <div class="cover__actions">
+          <a class="btn" href="mailto:Rylek.JStaker@gmail.com">Email me</a>
+          <a class="textlink" href="#work">See the work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · THE SHORT VERSION: flow -->
+  <section id="short" class="short" data-ch-section="short">
+    <div class="has-folio short__grid" style="margin-inline:auto">
+      <div class="short__body">
+      <div data-sc-in>
+        <p class="short__lede">I start with the real workflow: who uses it, where the manual work piles up, and what a reliable tool has to do. <em>Then I build it.</em></p>
+      </div>
+      <ul class="ledger" data-sc-in data-sc-stagger="70">
+        <li><span class="ledger__fig">3</span><div><p class="ledger__what">Shipped builds</p><p class="ledger__why">A scheduling platform in production, a claims triage demo, and a scheduled lead research workflow.</p></div></li>
+        <li><span class="ledger__fig">3.73</span><div><p class="ledger__what">GPA at BYU</p><p class="ledger__why">Pre-business, preparing to apply to the Information Systems program.</p></div></li>
+        <li><span class="ledger__fig">14–18</span><div><p class="ledger__what">People led at a time</p><p class="ledger__why">Rotating volunteer teams in Cochabamba, Bolivia, with daily teaching and presenting.</p></div></li>
+        <li><span class="ledger__fig">ES</span><div><p class="ledger__what">Advanced professional Spanish</p><p class="ledger__why">Learned over two years of full-time service. I work in both languages.</p></div></li>
+      </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · PEAK: pinned live surface. Every row is real markup computed from data below. -->
+  <section id="work" class="triage ground-navy" data-sc-act="pin" data-sc-span="3.6" data-chrome="light" data-ch-section="work" aria-label="Selected work: claims triage">
+    <div data-sc-stage>
+      <div class="triage__copy">
+        <p class="triage__kicker">Selected work · Claims triage</p>
+        <div class="triage__step" data-sc-cue="0 0.34 0">
+          <h2>A report nobody wants to read.</h2>
+          <p>Dental offices export an insurance aging report: every open claim, in whatever order the software felt like. Someone has to decide what to chase first.</p>
+        </div>
+        <div class="triage__step" data-sc-cue="0.30 0.66">
+          <h2>So the tool reads it for them.</h2>
+          <p>It parses the export, then scores each claim on age, balance, and status, and says why in plain language.</p>
+        </div>
+        <div class="triage__step" data-sc-cue="0.62 1 0.12 0.05">
+          <h2>What is left is a worklist.</h2>
+          <p>The claims worth a call today rise to the top, with a draft follow-up letter ready for a person to review and send.</p>
+        </div>
+      </div>
+
+      <div class="surface" id="triage-surface" aria-label="Sample claims worklist">
+        <div class="surface__bar"><span>aging_report_sample.csv</span><span class="surface__status" id="triage-status" aria-live="polite">9 claims loaded</span></div>
+        <div class="surface__head"><span>Claim</span><span>Payer</span><span class="h-age">Age</span><span>Balance</span><span>Score</span><span class="h-why">Status</span></div>
+        <div class="rows" id="triage-rows"></div>
+        <div class="letter" id="triage-letter">
+          <span class="letter__label">Draft follow-up · needs review</span>
+          <p id="triage-letter-text"></p>
+        </div>
+      </div>
+      <p class="triage__note">Sample data, scored live in this page. <a href="https://github.com/rylekjstaker/DentalInsuranceAgingAutoAnalysis">See the real project on GitHub</a></p>
+    </div>
+  </section>
+
+  <!-- 4 · MORE WORK: flow -->
+  <section class="work" data-ch-section="work">
+    <div class="has-folio" style="margin-inline:auto">
+      <div class="work__head" data-sc-in>
+        <h2 class="sc-display">Two more builds.</h2>
+        <a class="textlink" href="https://github.com/rylekjstaker">Everything on GitHub</a>
+      </div>
+      <div class="work__grid">
+        <article class="proj" data-sc-in data-sc-stagger="60">
+          <p class="proj__meta"><img src="assets/amanecer-wordmark.png" width="800" height="107" alt="Amanecer AI"> Client build</p>
+          <h3>Practice scheduling platform</h3>
+          <p>Built with my brother for a mobile anesthesia practice. Role-specific calendars coordinate providers and offices, and AI-assisted scheduling proposes changes for the owner to approve.</p>
+          <p><strong>Engineering focus:</strong> access controls, audit trails, and notifications that respect scheduling undo windows.</p>
+          <p class="stack">TypeScript · Next.js · PostgreSQL · Prisma</p>
+          <a class="textlink" href="https://github.com/rylekjstaker/rylekjstaker/blob/main/case-studies/practice-scheduling.md">Read the case study</a>
+        </article>
+        <article class="proj proj--offset" data-sc-in data-sc-stagger="60">
+          <p class="proj__meta">Amanecer AI · internal tool</p>
+          <h3>Lead research automation</h3>
+          <p>A scheduled workflow that searches for businesses, ranks candidates, and creates up to five ClickUp lead tasks a week with outreach drafts for human review.</p>
+          <p><strong>Engineering focus:</strong> persistent duplicate checks, time-zone-aware quotas, API integration, and unit tests. Scoring is rule-based.</p>
+          <p class="stack">TypeScript · Trigger.dev · SerpApi · ClickUp</p>
+          <a class="textlink" href="https://github.com/rylekjstaker/lead-research-automation">Explore the source</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · THE PATH: pan -->
+  <section id="path" class="path" data-sc-act="pan" data-sc-span="2.7" data-ch-section="path" aria-label="The path">
+    <div data-sc-stage>
+      <div class="rail" data-sc-pan="0.04">
+        <div class="rail__lead">
+          <h2 class="sc-display">The path so far.</h2>
+          <p class="sc-body">Leadership first, then operations, then building. Each step handed me the problem the next one solves.</p>
+        </div>
+        <article class="stop" style="--i:0">
+          <p class="stop__when">2022</p>
+          <p class="stop__role">Stake Youth Leadership Council</p>
+          <p class="stop__org">Salt Lake City, Utah</p>
+          <ul><li>Planned and ran youth activities, coordinating logistics with leaders and participants.</li><li>Brought feedback into leadership meetings that set program direction.</li></ul>
+        </article>
+        <article class="stop" style="--i:1">
+          <p class="stop__when">2023–25</p>
+          <p class="stop__role">Full-time Volunteer Representative</p>
+          <p class="stop__org">Cochabamba, Bolivia</p>
+          <ul><li>Led and coached rotating teams of 14 to 18 volunteers.</li><li>Taught and presented daily. Reached advanced professional Spanish.</li></ul>
+        </article>
+        <article class="stop" style="--i:2">
+          <p class="stop__when">Mar 2026</p>
+          <p class="stop__role">Insurance Specialist / AR Manager</p>
+          <p class="stop__org">Evansmiles Dentistry · present</p>
+          <ul><li>Insurance billing, denials, and collections across 30+ accounts weekly.</li><li>Built an Excel AR aging dashboard with VBA and a Python PDF-to-CSV converter for Dentrix reports.</li><li>Helped close out the last stretch of an AR reduction from roughly $300K to $80K.</li></ul>
+        </article>
+        <article class="stop" style="--i:3">
+          <p class="stop__when">Aug 2026</p>
+          <p class="stop__role">Co-Founder</p>
+          <p class="stop__org"><img src="assets/amanecer-mark.png" width="448" height="448" alt="">Amanecer AI · present</p>
+          <ul><li>AI automation and custom software for small businesses, started with my brother.</li><li>Scoped, built, and deployed a scheduling platform for a mobile anesthesia practice.</li><li>Prototype workflows with the Claude API and MCP.</li></ul>
+        </article>
+        <article class="stop stop--next" style="--i:4">
+          <p class="stop__when">Next</p>
+          <p class="stop__you">Your team.</p>
+          <p>Open to part-time internships and entry-level roles in AI automation, business systems, and software development.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · COCHABAMBA: reveal -->
+  <section id="bolivia" class="bolivia" data-ch-section="bolivia" data-chrome="light">
+    <figure data-sc-reveal="up" data-sc-reveal-at="0 0.42">
+      <img src="assets/cochabamba.webp" width="2048" height="1152" alt="Cochabamba, Bolivia, at dawn, with the Tunari range behind the city" loading="lazy">
+    </figure>
+    <div class="bolivia__shade" aria-hidden="true"></div>
+    <div class="bolivia__copy" data-sc-in data-sc-stagger="70">
+      <h2 class="sc-display">Two years in Cochabamba.</h2>
+      <p>Full-time volunteer service in Bolivia, from July 2023 to July 2025. I learned Spanish in the field, to advanced professional level, and spent every day teaching, presenting, and coaching teams of 14 to 18 people.</p>
+      <p>It is where I learned that the job is rarely the task in front of you. It is getting a group of people to do it well together.</p>
+    </div>
+  </section>
+
+  <!-- 7 · TOOLKIT: flow -->
+  <section id="kit" class="kit" data-ch-section="kit">
+    <div class="has-folio kit__grid" style="margin-inline:auto">
+      <div data-sc-in>
+        <h2 class="sc-display">Toolkit and training.</h2>
+      </div>
+      <dl data-sc-in data-sc-stagger="50">
+        <div><dt>AI and automation</dt><dd>Claude API, MCP, Trigger.dev, Make.com, workflow design</dd></div>
+        <div><dt>Software and data</dt><dd>TypeScript, Next.js, Python, SQL, PostgreSQL, Prisma, Git and GitHub</dd></div>
+        <div><dt>Business systems</dt><dd>Excel and VBA, Tableau, Dentrix, ClickUp API, accounts receivable, insurance billing</dd></div>
+        <div><dt>Education</dt><dd>Brigham Young University, Pre-Business, expected April 2029<small>GPA 3.73. IS 201, IS 110, ACC 200. Fall 2026: ACC 310 and CS 111.</small></dd></div>
+        <div><dt>Certifications</dt><dd>Google AI Essentials, Google AI Professional, AI Fluency: Frameworks and Foundations (Anthropic), Claude 101 (Anthropic)</dd></div>
+        <div><dt>Languages</dt><dd>English (native), Spanish (advanced professional)</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 8 · CLOSE: pinned, holds -->
+  <section id="contact" class="close" data-sc-act="pin" data-sc-span="1.25" data-ch-section="contact" aria-label="Contact">
+    <div data-sc-stage>
+      <img class="close__bg" src="assets/hero-far.webp" width="2400" height="1358" alt="" loading="lazy">
+      <div class="close__wash" aria-hidden="true"></div>
+      <div class="close__inner">
+        <h2 class="close__line" data-sc-cue="0 1 0 0">Let’s build something <em>useful.</em></h2>
+        <p class="close__mail" data-sc-cue="0 1 0 0">Email me: <a href="mailto:Rylek.JStaker@gmail.com">Rylek.JStaker@gmail.com</a></p>
+        <ul class="close__links" data-sc-cue="0 1 0 0">
+          <li><a href="resume.pdf" download="Rylek-Staker-Resume.pdf">Résumé (PDF)</a></li>
+          <li><a href="https://www.linkedin.com/in/rylekstaker/">LinkedIn</a></li>
+          <li><a href="https://github.com/rylekjstaker">GitHub</a></li>
+        </ul>
+      </div>
+      <footer class="foot">
+        <span>Rylek Staker · Draper, Utah</span>
+        <span><img src="assets/amanecer-mark.png" width="448" height="448" alt="">Co-founder, Amanecer AI</span>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>
+ScrollCraft.mount(document.body);
+
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+
+  /* ---- cover pointer parallax (fine pointers only) ---- */
+  var cover = document.querySelector('.cover');
+  if (fine && !reduce && cover) {
+    var tx = 0, cx = 0, raf = 0;
+    cover.addEventListener('pointermove', function (e) {
+      tx = (e.clientX / innerWidth - 0.5) * 2;
+      if (!raf) raf = requestAnimationFrame(step);
+    });
+    cover.addEventListener('pointerleave', function () { tx = 0; if (!raf) raf = requestAnimationFrame(step); });
+    function step() {
+      cx += (tx - cx) * 0.08;
+      cover.style.setProperty('--mx', cx.toFixed(4));
+      raf = Math.abs(tx - cx) > 0.001 ? requestAnimationFrame(step) : 0;
+    }
+  }
+
+  /* ---- folio: current chapter + chrome ink over dark grounds ---- */
+  var links = {};
+  document.querySelectorAll('.folio__list a').forEach(function (a) { links[a.dataset.ch] = a; });
+  var chapters = Array.prototype.slice.call(document.querySelectorAll('[data-ch-section], .cover'));
+  function chrome() {
+    var probeY = Math.min(innerHeight * 0.18, 140), cur = null, dark = false;
+    for (var i = 0; i < chapters.length; i++) {
+      var r = chapters[i].getBoundingClientRect();
+      if (r.top <= probeY && r.bottom > probeY) { cur = chapters[i]; }
+    }
+    if (cur) {
+      var ch = cur.getAttribute('data-ch-section');
+      Object.keys(links).forEach(function (k) { links[k].setAttribute('aria-current', k === ch ? 'true' : 'false'); });
+      dark = cur.getAttribute('data-chrome') === 'light';
+    }
+    document.body.setAttribute('data-chrome', dark ? 'light' : 'dark');
+    document.body.setAttribute('data-on-cover', cur && cur.classList.contains('cover') ? 'true' : 'false');
+  }
+  addEventListener('scroll', chrome, { passive: true });
+  addEventListener('resize', chrome);
+  chrome();
+
+  /* ---- signature move: the report that sorts itself ----
+     Sample rows only. Scores are computed here, from these arrays. */
+  var claims = [
+    { id: 'C-10432', payer: 'Delta Dental',     age: 34,  bal: 182,  st: 'Pending',        why: 'Recent and small. Check again next week.' },
+    { id: 'C-10418', payer: 'MetLife',          age: 97,  bal: 1240, st: 'No response',    why: '97 days with no response on a $1,240 claim.' },
+    { id: 'C-10441', payer: 'Cigna',            age: 12,  bal: 96,   st: 'Submitted',      why: 'Just submitted. Nothing to do yet.' },
+    { id: 'C-10397', payer: 'Aetna',            age: 128, bal: 640,  st: 'Denied',         why: 'Denied for a missing X-ray, and aging past 120 days.' },
+    { id: 'C-10425', payer: 'Guardian',         age: 61,  bal: 2310, st: 'Partial pay',    why: 'Largest balance on the report, underpaid by the payer.' },
+    { id: 'C-10436', payer: 'Delta Dental',     age: 22,  bal: 410,  st: 'Pending',        why: 'Within normal processing time.' },
+    { id: 'C-10402', payer: 'United Concordia', age: 114, bal: 385,  st: 'No response',    why: 'Close to 120 days with no response.' },
+    { id: 'C-10429', payer: 'BCBS',             age: 45,  bal: 1075, st: 'Info requested', why: 'Payer asked for more information.' },
+    { id: 'C-10444', payer: 'MetLife',          age: 8,   bal: 150,  st: 'Submitted',      why: 'Just submitted. Nothing to do yet.' }
+  ];
+  var W = { 'Denied': 20, 'No response': 16, 'Info requested': 14, 'Partial pay': 12, 'Pending': 6, 'Submitted': 0 };
+  claims.forEach(function (c, i) {
+    c.raw = i;
+    c.score = Math.min(c.age / 120, 1) * 45 + Math.min(c.bal / 2500, 1) * 35 + W[c.st];
+  });
+  var sorted = claims.slice().sort(function (a, b) { return b.score - a.score; });
+  sorted.forEach(function (c, i) { c.rank = i; });
+  var HOT = 3;
+
+  var host = document.getElementById('triage-rows');
+  var money = function (n) { return '$' + n.toLocaleString('en-US'); };
+  claims.forEach(function (c) {
+    var r = document.createElement('div');
+    r.className = 'row';
+    r.innerHTML = '<span class="row__id"></span><span class="row__payer"></span><span class="row__num row__age"></span>' +
+      '<span class="row__num"></span><span class="row__score" aria-hidden="true"><i></i></span><span class="row__reason row__tag"></span>';
+    r.children[0].textContent = c.id;
+    r.children[1].textContent = c.payer;
+    r.children[2].textContent = c.age + 'd';
+    r.children[3].textContent = money(c.bal);
+    r.children[5].textContent = c.st;
+    r.title = c.why;
+    c.el = r; c.bar = r.querySelector('i'); c.tag = r.children[5];
+    host.appendChild(r);
+  });
+  var top = sorted[0];
+  document.getElementById('triage-letter-text').textContent =
+    'Re: claim ' + top.id + ', ' + top.payer + '. This claim was denied for a missing X-ray. The periapical X-ray is attached. ' +
+    'Please reprocess, or tell us what else you need to complete it.';
+
+  var act = document.getElementById('work');
+  var letter = document.getElementById('triage-letter');
+  var status = document.getElementById('triage-status');
+  var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var lastState = '';
+
+  function render() {
+    var p = parseFloat(act.style.getPropertyValue('--sc-p')) || 0;
+    var rh = host.clientHeight / claims.length;
+    // phase A: raw export (0 to .30). phase B: scoring (.30 to .60). phase C: sort (.60 to .86)
+    var scoreP = clamp((p - 0.30) / 0.30);
+    var sortP = clamp((p - 0.60) / 0.26);
+    if (reduce) { scoreP = scoreP > 0 ? 1 : 0; sortP = sortP > 0.5 ? 1 : 0; }
+    var scanning = Math.floor(scoreP * claims.length);
+    claims.forEach(function (c, i) {
+      var local = reduce ? scoreP : ease(clamp(scoreP * claims.length - i));
+      c.bar.style.setProperty('--s', (local * c.score / 100).toFixed(3));
+      var k = reduce ? sortP : ease(clamp(sortP * 1.35 - c.raw * 0.04));
+      var y = (c.raw + (c.rank - c.raw) * k) * rh;
+      c.el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
+      c.el.classList.toggle('is-scanning', scoreP > 0 && scoreP < 1 && i === scanning);
+      var hot = sortP > 0.35 && c.rank < HOT, cold = sortP > 0.35 && c.rank >= HOT;
+      c.el.classList.toggle('is-hot', hot);
+      c.el.classList.toggle('is-cold', cold);
+      c.tag.textContent = hot ? 'Call today' : c.st;
+    });
+    var lp = reduce ? (p > 0.8 ? 1 : 0) : ease(clamp((p - 0.80) / 0.14));
+    letter.style.opacity = lp.toFixed(3);
+    letter.style.transform = 'translate3d(0,' + ((1 - lp) * 10).toFixed(1) + 'px,0)';
+    var s = sortP >= 1 ? '3 to call today' : scoreP >= 1 ? 'Sorting by priority' : scoreP > 0 ? 'Scoring ' + Math.min(scanning + 1, 9) + ' of 9' : '9 claims loaded';
+    if (s !== lastState) { status.textContent = s; lastState = s; }
+  }
+
+  var running = false;
+  function loop() { render(); if (running) requestAnimationFrame(loop); }
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting && !running) { running = true; requestAnimationFrame(loop); }
+      else if (!e.isIntersecting) { running = false; render(); }
+    });
+  }).observe(act);
+  render();
+})();
+</script>
+</body>
+</html>
